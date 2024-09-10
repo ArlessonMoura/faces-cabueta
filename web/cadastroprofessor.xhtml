@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <link rel="icon" href="resources/images/dedo.jpg"/>
+        <title>CADASTRO DE PROFESSORES</title>
+    </h:head>
+    <h:body style="background-color: gainsboro">
+        
+        <ui:include src="menu.xhtml"/>
+        
+        <h:form id="formProfessor">
+            <p:fieldset legend="Cadastro de Professor">
+
+                <p:panelGrid columns="3">
+                    <h:outputText value="Nome: "/>
+                    <h:inputText value="#{profController.cadastro.nome}"
+                                 required="true" requiredMessage="O nome é obrigatório!"
+                                 id="txtNome"/>
+                    <p:message for="txtNome"/>
+
+                    <h:outputText value="E-mail: "/>
+                    <p:inputText value="#{profController.cadastro.email}"
+                                 required="true" requiredMessage="O e-mail é obrigatório!"
+                                 id="txtEmail"/>
+                    <p:message for="txtEmail"/>
+                    
+                    <h:outputText value="Senha: "/>
+                    <h:inputSecret value="#{profController.cadastro.senha}"
+                                 required="true" requiredMessage="A senha é obrigatória!"
+                                 id="txtSenha"/>
+                    <p:message for="txtSenha"/>
+                    
+                    <h:outputText value="Confirma senha:"/>
+                    <h:inputSecret id="txtConfirma" value="#{confirma}"/>
+                    <p:message for="txtConfirma"/>
+                    
+                    <h:outputText/><h:outputText/><h:outputText/>
+
+                </p:panelGrid>
+                <p:commandButton value="Cadastrar" 
+                                 oncomplete="PF('widDialCadastro').show()"/>
+                <p:commandButton value="Limpar" 
+                                 action="#{profController.resetarCamposCadastro()}"
+                                 ajax='false'/>
+            </p:fieldset>
+
+            <p:dialog id="dialCadastro" visible="false" closeOnEscape="true"
+                      closable="true" resizable="false" draggable="false"
+                      modal="true" hideEffect="explode" widgetVar="widDialCadastro">
+
+                <h5>Deseja cadastrar um professor?</h5>
+                <p:commandButton value="Sim" 
+                                 action="#{profController.cadastrar(confirma)}" ajax="false"/>
+                <p:commandButton value="Não" oncomplete="PF('widDialCadastro').hide()"/>
+            </p:dialog>
+        </h:form>
+    </h:body>
+</html>
+

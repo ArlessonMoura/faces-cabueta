@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <h:head>
+        <link rel="icon" href="resources/images/dedo.jpg"/>
+        <title>PROFESSORES CADASTRADOS</title>
+    </h:head>
+    <h:body style="background-color: gainsboro">
+        <ui:include src="menu.xhtml"/>
+
+        <h:form id="formApresentaProfessor">
+            <p:dataTable id="tableProfessor" var="professor" value="#{profController.resgatar()}" paginator="true" rows="5"
+                         selectionMode="single" selection="#{profController.selecionado}" rowKey="#{professor.codigo}">
+                <f:facet name="header">
+                    PROFESSORES CADASTRADOS
+                </f:facet>
+                <p:column filterBy="#{professor.codigo}">
+                    <f:facet name="header">
+                        CÓDIGO
+                    </f:facet>
+                    #{professor.codigo}
+                </p:column>
+                <p:column filterBy="#{professor.nome}">
+                    <f:facet name="header">
+                        NOME
+                    </f:facet>
+                    #{professor.nome}
+                </p:column>
+                <p:column filterBy="#{professor.email}">
+                    <f:facet name="header">
+                        E-MAIL
+                    </f:facet>
+                    #{professor.email}
+                </p:column>
+                <p:column filterBy="#{professor.senha}">
+                    <f:facet name="header">
+                        SENHA
+                    </f:facet>
+                    #{professor.senha}
+                </p:column>
+                <f:facet name="footer">
+                    @JERONIMOCM
+                </f:facet>
+            </p:dataTable>
+
+            <p:commandButton value="EXIBIR" oncomplete="PF('dialMostraProfessor').show()" update=":dialMostraProfessor"/>
+            <p:commandButton value="EDITAR" action="editarprofessor.xhtml"/> 
+            <p:commandButton value="EXCLUIR" oncomplete="PF('dialExcluiProfessor').show()" update=":dialExcluiProfessor"/>
+        </h:form>
+
+        <p:dialog id="dialMostraProfessor" visible="false" closable="false" modal="true" 
+                  closeOnEscape="false" widgetVar="dialMostraProfessor" showEffect="bounce" hideEffect="explode">
+
+            <f:facet name="header">
+                PROFESSOR CADASTRADO
+            </f:facet>
+
+            <p:panelGrid columns="2">
+
+                <h:outputText value="CÓDIGO"/>
+                <h:outputText value="#{profController.selecionado.codigo}"/>
+
+                <h:outputText value="NOME"/>
+                <h:outputText value="#{profController.selecionado.nome}"/>
+
+                <h:outputText value="E-MAIL"/>
+                <h:outputText value="#{profController.selecionado.email}"/>
+
+                <h:outputText value="SENHA"/>
+                <h:outputText value="#{profController.selecionado.senha}"/>
+
+            </p:panelGrid>
+            <f:facet name="footer">
+                <h:form>
+                    <p:commandButton value="Fechar" oncomplete="PF('dialMostraProfessor').hide()"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+
+        <p:dialog id="dialExcluiProfessor" visible="false" closable="false" modal="true" 
+                  closeOnEscape="false" widgetVar="dialExcluiProfessor" showEffect="bounce" hideEffect="explode">
+
+            <f:facet name="header">
+                EXCLUIR PROFESSOR?
+            </f:facet>
+
+            <p:panelGrid columns="2">
+
+                <h:outputText value="CÓDIGO"/>
+                <h:outputText value="#{profController.selecionado.codigo}"/>
+
+                <h:outputText value="NOME"/>
+                <h:outputText value="#{profController.selecionado.nome}"/>
+
+                <h:outputText value="E-MAIL"/>
+                <h:outputText value="#{profController.selecionado.email}"/>
+
+            </p:panelGrid>
+            <f:facet name="footer">
+                <h:form>
+                    <p:commandButton value="Excluir" action="#{profController.excluir()}" 
+                                     oncomplete="PF('dialExcluiProfessor').hide()" update=":formApresentaProfessor"/>
+                    <p:commandButton value="Fechar" oncomplete="PF('dialExcluiProfessor').hide()"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+    </h:body>
+</html>
+

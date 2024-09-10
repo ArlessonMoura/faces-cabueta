@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <link rel="icon" href="resources/images/dedo.jpg"/>
+        <title>Método de Fila</title>
+    </h:head>
+    <h:body>
+        <b:growl id="gro" delay="5000" />
+        <b:form id="formMetodoFila">
+            <b:commandButton value="Novo Registro" oncomplete="$('.modalcadastrometodofila').modal()" ajax="true"/>
+            <b:dataTable id="tableMetodoFila" value="#{mfControllerBF.readAll()}" var="item">
+                <b:dataTableColumn value="#{item.codigo}"/>
+                <b:dataTableColumn value="#{item.descricaoCurta}"/>
+                <b:dataTableColumn value="#{item.descricaoLonga}"/>
+
+                <b:dataTableColumn label="Operações">
+                    <b:commandButton icon="search" ajax="true" oncomplete="$('.modalvisualizametodofila').modal()" update=":formMetodoFila:modalVisualiza">
+                        <f:setPropertyActionListener value="#{item}" target="#{mfControllerBF.selecionado}"/>
+                    </b:commandButton>
+
+                    <b:commandButton icon="pencil" ajax="true" oncomplete="$('.modalmodificametodofila').modal()" update=":formMetodoFila:modalModifica">
+                        <f:setPropertyActionListener value="#{item}" target="#{mfControllerBF.selecionado}"/>
+                    </b:commandButton>
+
+                    <b:commandButton icon="trash" ajax="true" oncomplete="$('.modalexcluimetodofila').modal()" update=":formMetodoFila:modalExclui">
+                        <f:setPropertyActionListener value="#{item}" target="#{mfControllerBF.selecionado}"/>
+                    </b:commandButton>  
+                </b:dataTableColumn>
+            </b:dataTable>
+
+            <b:modal id="modalExclui" title="Excluir Método de Fila" class="modalexcluimetodofila">
+                <h:outputText value="Deseja realmente excluir o método de fila?"/><br/>
+                <b:commandButton value="Sim" action="#{mfControllerBF.delete()}" ajax="false"/>
+                <b:button value="Não" dismiss="modal"/>
+            </b:modal>
+
+            <b:modal id="modalModifica" title="Modificar dados do Método de Fila" class="modalmodificametodofila">
+                <b:panelGrid columns="2">
+                    <h:outputText value="Descrição curta:"/>
+                    <b:inputText value="#{mfControllerBF.selecionado.descricaoCurta}"/>
+
+                    <h:outputText value="Descrição longa:"/>
+                    <b:inputText value="#{mfControllerBF.selecionado.descricaoLonga}"/>
+
+                </b:panelGrid>
+                <b:commandButton value="Modificar" action="#{mfControllerBF.update()}"/>
+            </b:modal>
+            
+            <b:modal id="modalVisualiza" title="Dados do Método de Fila" class="modalvisualizametodofila">
+                    <b:panelGrid columns="2">
+                        <h:outputText value="Descrição curta:"/>
+                        <h:outputText value="#{mfControllerBF.selecionado.descricaoCurta}"/>
+                        
+                        <h:outputText value="Descrição longa:"/>
+                        <h:outputText value="#{mfControllerBF.selecionado.descricaoLonga}"/>
+                    </b:panelGrid>
+                    <b:button value="Fechar" dismiss="modal"/>
+            </b:modal>
+
+        </b:form>
+
+        <b:modal id="modalCadastro" title="Cadastro de Método de Fila" class="modalcadastrometodofila">
+            <b:form id="formModalCadMetodoFila">
+                <b:panelGrid columns="2">
+                    <h:outputText value="Descrição curta:"/>
+                    <b:inputText value="#{mfControllerBF.cadastro.descricaoCurta}"/>
+
+                    <h:outputText value="Descrição longa:"/>
+                    <b:inputText value="#{mfControllerBF.cadastro.descricaoLonga}"/>
+
+                </b:panelGrid>
+                <b:commandButton value="Cadastrar" action="#{mfControllerBF.insert()}"
+                                 ajax="false" update=":formMetodoFila :formModalCadMetodoFila :gro"
+                                 oncomplete="$('.modalcadastrometodofila').modal('hide');"/>
+            </b:form>
+        </b:modal>
+    </h:body>
+</html>
+

@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <link rel="icon" href="resources/images/dedo.jpg"/>
+        <title>CADASTRO DE ESTUDANTES</title>
+    </h:head>
+    <h:body style="background-color: gainsboro">
+        
+        <ui:include src="menu.xhtml"/>
+        
+        <h:form id="formEstudante">
+            <p:fieldset legend="Cadastro de Estudante">
+
+                <p:panelGrid columns="3">
+                    <h:outputText value="Nome: "/>
+                    <h:inputText value="#{eController.cadastro.nome}"
+                                 required="true" requiredMessage="O nome é obrigatório!"
+                                 id="txtNome" maxlength="150"/>
+                    <p:message for="txtNome"/>
+
+                    <h:outputText value="E-mail: "/>
+                    <p:inputText value="#{eController.cadastro.email}"
+                                 required="true" requiredMessage="O e-mail é obrigatório!"
+                                 id="txtEmail" maxlength="70"/>
+                    <p:message for="txtEmail"/>
+
+                    <h:outputText value="Ano de entrada: "/>
+                    <p:inputText value="#{eController.cadastro.anoEntrada}"
+                                 required="true" requiredMessage="O ano de entrada é obrigatório!"
+                                 id="txtAnoEntrada" maxlength="4"/>
+                    <p:message for="txtAnoEntrada"/>
+                    
+                    <h:outputText value="Senha: "/>
+                    <h:inputSecret value="#{eController.cadastro.senha}"
+                                 required="true" requiredMessage="A senha é obrigatória!"
+                                 id="txtSenha" maxlength="70"/>
+                    <p:message for="txtSenha"/>
+                    
+                    <h:outputText value="Confirma senha: "/>
+                    <h:inputSecret value="#{confirma}"
+                                 required="true" requiredMessage="A senha é obrigatória!"
+                                 id="txtConfirma" maxlength="70"/>
+                    <p:message for="txtConfirma"/>
+
+                    <h:outputText/><h:outputText/><h:outputText/>
+
+                </p:panelGrid>
+                <p:commandButton value="Cadastrar" 
+                                 oncomplete="PF('widDialCadastro').show()"/>
+                <p:commandButton value="Limpar" 
+                                 action="#{eController.resetarCamposCadastro()}"
+                                 ajax='false'/>
+            </p:fieldset>
+
+            <p:dialog id="dialCadastro" visible="false" closeOnEscape="true"
+                      closable="true" resizable="false" draggable="false"
+                      modal="true" hideEffect="explode" widgetVar="widDialCadastro">
+
+                <h5>Deseja cadastrar um estudante?</h5>
+                <p:commandButton value="Sim" 
+                                 action="#{eController.cadastrar(confirma)}" ajax="false"/>
+                <p:commandButton value="Não" oncomplete="PF('widDialCadastro').hide()"/>
+            </p:dialog>
+        </h:form>
+    </h:body>
+</html>
+

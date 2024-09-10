@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <link rel="icon" href="resources/images/dedo.jpg"/>
+        <title>Cadeira</title>
+    </h:head>
+    <h:body>
+        <b:growl id="gro" delay="5000" />
+        <b:form id="formCadeira">
+            <b:commandButton value="Novo Registro" oncomplete="$('.modalcadastrocadeira').modal()" ajax="true"/>
+            <b:dataTable id="tableCadeira" value="#{cControllerBF.readAll()}" var="item">
+                <b:dataTableColumn value="#{item.codigo}"/>
+                <b:dataTableColumn value="#{item.nome}"/>
+                <b:dataTableColumn value="#{item.ano}"/>
+                <b:dataTableColumn value="#{item.semestre}"/>
+                <b:dataTableColumn value="#{item.descricao}"/>
+
+                <b:dataTableColumn label="Operações">
+                    <b:commandButton icon="search" ajax="true" oncomplete="$('.modalvisualizacadeira').modal()" update=":formCadeira:modalVisualiza">
+                        <f:setPropertyActionListener value="#{item}" target="#{cControllerBF.selecionado}"/>
+                    </b:commandButton>
+
+                    <b:commandButton icon="pencil" ajax="true" oncomplete="$('.modalmodificacadeira').modal()" update=":formCadeira:modalModifica">
+                        <f:setPropertyActionListener value="#{item}" target="#{cControllerBF.selecionado}"/>
+                    </b:commandButton>
+
+                    <b:commandButton icon="trash" ajax="true" oncomplete="$('.modalexcluicadeira').modal()" update=":formCadeira:modalExclui">
+                        <f:setPropertyActionListener value="#{item}" target="#{cControllerBF.selecionado}"/>
+                    </b:commandButton>  
+                </b:dataTableColumn>
+            </b:dataTable>
+
+            <b:modal id="modalExclui" title="Excluir Cadeira" class="modalexcluicadeira">
+                <h:outputText value="Deseja realmente excluir a cadeira?"/><br/>
+                <b:commandButton value="Sim" action="#{cControllerBF.delete()}" ajax="false"/>
+                <b:button value="Não" dismiss="modal"/>
+            </b:modal>
+
+            <b:modal id="modalModifica" title="Modificar dados da cadeira" class="modalmodificacadeira">
+                <b:panelGrid columns="2">
+                    <h:outputText value="Nome:"/>
+                    <b:inputText value="#{cControllerBF.selecionado.nome}"/>
+
+                    <h:outputText value="Ano:"/>
+                    <b:inputText value="#{cControllerBF.selecionado.ano}"/>
+
+                    <h:outputText value="Semestre:"/>
+                    <b:inputText value="#{cControllerBF.selecionado.semestre}"/>
+
+                    <h:outputText value="Descrição:"/>
+                    <b:inputText value="#{cControllerBF.selecionado.descricao}"/>
+
+                </b:panelGrid>
+                <b:commandButton value="Modificar" action="#{cControllerBF.update()}"/>
+            </b:modal>
+
+            <b:modal id="modalVisualiza" title="Dados da Cadeira" class="modalvisualizacadeira">
+                <b:panelGrid columns="2">
+                    <h:outputText value="Nome:"/>
+                    <h:outputText value="#{cControllerBF.selecionado.nome}"/>
+
+                    <h:outputText value="Ano:"/>
+                    <h:outputText value="#{cControllerBF.selecionado.ano}"/>
+
+                    <h:outputText value="Semestre:"/>
+                    <h:outputText value="#{cControllerBF.selecionado.semestre}"/>
+
+                    <h:outputText value="Descrição:"/>
+                    <h:outputText value="#{cControllerBF.selecionado.descricao}"/>
+                </b:panelGrid>
+                <b:button value="Fechar" dismiss="modal"/>
+            </b:modal>
+
+        </b:form>
+
+        <b:modal id="modalCadastro" title="Cadastro de Cadeira" class="modalcadastrocadeira">
+            <b:form id="formModalCadCad">
+                <b:panelGrid columns="2">
+                    <h:outputText value="Nome:"/>
+                    <b:inputText value="#{cControllerBF.cadastro.nome}"/>
+
+                    <h:outputText value="Ano:"/>
+                    <b:inputText value="#{cControllerBF.cadastro.ano}"/>
+
+                    <h:outputText value="Semestre:"/>
+                    <b:inputText value="#{cControllerBF.cadastro.semestre}"/>
+
+                    <h:outputText value="Descrição:"/>
+                    <b:inputText value="#{cControllerBF.cadastro.descricao}"/>
+
+                </b:panelGrid>
+                <b:commandButton value="Cadastrar" action="#{cControllerBF.insert()}"
+                                 ajax="false" update=":formCadeira :formModalCadCad :gro"
+                                 oncomplete="$('.modalcadastrocadeira').modal('hide');"/>
+            </b:form>
+        </b:modal>
+    </h:body>
+</html>
+

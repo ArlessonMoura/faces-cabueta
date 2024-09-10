@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <link rel="icon" href="resources/images/dedo.jpg"/>
+        <title>MÉTODOS DE FILA CADASTRADOS</title>
+    </h:head>
+    <h:body style="background-color: gainsboro">
+
+        <ui:include src="menu.xhtml"/>
+
+        <h:form id="formApresentaMetodoFila">
+            <p:dataTable id="tableMetodoFila" var="metodo" value="#{metController.resgatar()}" paginator="true" rows="5"
+                         selectionMode="single" selection="#{metController.selecionado}" rowKey="#{metodo.codigo}">
+                <f:facet name="header">
+                    MÉTODOS DE FILA CADASTRADOS
+                </f:facet>
+                <p:column filterBy="#{metodo.codigo}">
+                    <f:facet name="header">
+                        CÓDIGO
+                    </f:facet>
+                    #{metodo.codigo}
+                </p:column>
+                <p:column filterBy="#{metodo.descricaoCurta}">
+                    <f:facet name="header">
+                        DESCRIÇÃO CURTA
+                    </f:facet>
+                    #{metodo.descricaoCurta}
+                </p:column>
+                <p:column filterBy="#{metodo.descricaoLonga}">
+                    <f:facet name="header">
+                        DESCRIÇÃO LONGA
+                    </f:facet>
+                    #{metodo.descricaoLonga}
+                </p:column>
+                <f:facet name="footer">
+                    @JERONIMOCM
+                </f:facet>
+            </p:dataTable>
+
+            <p:commandButton value="EXIBIR" oncomplete="PF('dialMostraMetodoFila').show()" update=":dialMostraMetodoFila"/>
+            <p:commandButton value="EDITAR" action="editarmetodofila.xhtml"/> 
+            <p:commandButton value="EXCLUIR" oncomplete="PF('dialExcluiMetodoFila').show()" update=":dialExcluiMetodoFila"/>
+
+        </h:form>
+
+
+        <p:dialog id="dialMostraMetodoFila" visible="false" closable="false" modal="true" 
+                  closeOnEscape="false" widgetVar="dialMostraMetodoFila" showEffect="bounce" hideEffect="explode">
+
+            <f:facet name="header">
+                MÉTODO FILA CADASTRADO
+            </f:facet>
+
+            <p:panelGrid columns="2">
+
+                <h:outputText value="CÓDIGO"/>
+                <h:outputText value="#{metController.selecionado.codigo}"/>
+
+                <h:outputText value="DESCRIÇÃO CURTA"/>
+                <h:outputText value="#{metController.selecionado.descricaoCurta}"/>
+
+                <h:outputText value="DESCRIÇÃO LONGA"/>
+                <h:outputText value="#{metController.selecionado.descricaoLonga}" escape="xml"/>
+
+            </p:panelGrid>
+            <f:facet name="footer">
+                <h:form>
+                    <p:commandButton value="Fechar" oncomplete="PF('dialMostraMetodoFila').hide()"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+
+        <p:dialog id="dialExcluiMetodoFila" visible="false" closable="false" modal="true" 
+                  closeOnEscape="false" widgetVar="dialExcluiMetodoFila" showEffect="bounce" hideEffect="explode">
+
+            <f:facet name="header">
+                EXCLUIR MÉTODO DE FILA?
+            </f:facet>
+
+            <p:panelGrid columns="2">
+
+                <h:outputText value="CÓDIGO"/>
+                <h:outputText value="#{metController.selecionado.codigo}"/>
+
+                <h:outputText value="DESCRIÇÃO CURTA"/>
+                <h:outputText value="#{metController.selecionado.descricaoCurta}"/>
+
+                <h:outputText value="DESCRIÇÃO LONGA"/>
+                <h:outputText value="#{metController.selecionado.descricaoLonga}" escape="xml"/>
+
+            </p:panelGrid>
+            <f:facet name="footer">
+                <h:form>
+                    <p:commandButton value="Excluir" action="#{metController.excluir()}" 
+                                     oncomplete="PF('dialExcluiMetodoFila').hide()" update=":formApresentaMetodoFila"/>
+                    <p:commandButton value="Fechar" oncomplete="PF('dialExcluiMetodoFila').hide()"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+    </h:body>
+</html>
+

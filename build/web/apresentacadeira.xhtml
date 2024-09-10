@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <link rel="icon" href="resources/images/dedo.jpg"/>
+        <title>CADEIRAS CADASTRADAS</title>
+    </h:head>
+    <h:body style="background-color: gainsboro">
+
+        <ui:include src="menu.xhtml"/>
+
+        <h:form id="formApresentaCadeira">
+            <p:dataTable id="tableCadeira" var="cadeira" value="#{cadController.resgatar()}" paginator="true" rows="5"
+                         selectionMode="single" selection="#{cadController.selecionada}" rowKey="#{cadeira.codigo}">
+                <f:facet name="header">
+                    CADEIRAS CADASTRADAS
+                </f:facet>
+                <p:column filterBy="#{cadeira.codigo}">
+                    <f:facet name="header">
+                        CÓDIGO
+                    </f:facet>
+                    #{cadeira.codigo}
+                </p:column>
+                <p:column filterBy="#{cadeira.nome}">
+                    <f:facet name="header">
+                        NOME
+                    </f:facet>
+                    #{cadeira.nome}
+                </p:column>
+                <p:column filterBy="#{cadeira.ano}">
+                    <f:facet name="header">
+                        ANO
+                    </f:facet>
+                    #{cadeira.ano}
+                </p:column>
+                <p:column filterBy="#{cadeira.semestre}">
+                    <f:facet name="header">
+                        SEMESTRE
+                    </f:facet>
+                    #{cadeira.semestre}
+                </p:column>
+                <p:column filterBy="#{cadeira.descricao}">
+                    <f:facet name="header">
+                        DESCRIÇÃO
+                    </f:facet>
+                    #{cadeira.descricao}
+                </p:column>
+                <f:facet name="footer">
+                    @JERONIMOCM
+                </f:facet>
+            </p:dataTable>
+
+            <p:commandButton value="EXIBIR" oncomplete="PF('dialMostraCadeira').show()" update=":dialMostraCadeira"/>
+            <p:commandButton value="EDITAR" action="editarcadeira.xhtml"/>
+            <p:commandButton value="EXCLUIR" oncomplete="PF('dialExcluiCadeira').show()" update=":dialExcluiCadeira"/>
+
+        </h:form>
+
+        <p:dialog id="dialMostraCadeira" visible="false" closable="false" modal="true" 
+                  closeOnEscape="false" widgetVar="dialMostraCadeira" showEffect="bounce" hideEffect="explode">
+
+            <f:facet name="header">
+                CADEIRA CADASTRADA
+            </f:facet>
+
+            <p:panelGrid columns="2">
+
+                <h:outputText value="CÓDIGO"/>
+                <h:outputText value="#{cadController.selecionada.codigo}"/>
+
+                <h:outputText value="NOME"/>
+                <h:outputText value="#{cadController.selecionada.nome}"/>
+
+                <h:outputText value="ANO"/>
+                <h:outputText value="#{cadController.selecionada.ano}"/>
+
+                <h:outputText value="SEMESTRE"/>
+                <h:outputText value="#{cadController.selecionada.semestre}"/>
+
+                <h:outputText value="DESCRIÇÃO"/>
+                <h:outputText value="#{cadController.selecionada.descricao}" escape="xml"/>
+
+            </p:panelGrid>
+            <f:facet name="footer">
+                <h:form>
+                    <p:commandButton value="Fechar" oncomplete="PF('dialMostraCadeira').hide()"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+
+        <p:dialog id="dialExcluiCadeira" visible="false" closable="false" modal="true" 
+                  closeOnEscape="false" widgetVar="dialExcluiCadeira" showEffect="bounce" hideEffect="explode">
+
+            <f:facet name="header">
+                EXCLUIR CADEIRA?
+            </f:facet>
+
+            <p:panelGrid columns="2">
+
+                <h:outputText value="CÓDIGO"/>
+                <h:outputText value="#{cadController.selecionada.codigo}"/>
+
+                <h:outputText value="NOME"/>
+                <h:outputText value="#{cadController.selecionada.nome}"/>
+
+                <h:outputText value="ANO"/>
+                <h:outputText value="#{cadController.selecionada.ano}"/>
+
+                <h:outputText value="SEMESTRE"/>
+                <h:outputText value="#{cadController.selecionada.semestre}"/>
+
+                <h:outputText value="DESCRIÇÃO"/>
+                <h:outputText value="#{cadController.selecionada.descricao}" escape="xml"/>
+
+            </p:panelGrid>
+            <f:facet name="footer">
+                <h:form>
+                    <p:commandButton value="Excluir" action="#{cadController.excluir()}" 
+                                     oncomplete="PF('dialExcluiCadeira').hide()" update=":formApresentaCadeira"/>
+                    <p:commandButton value="Fechar" oncomplete="PF('dialExcluiCadeira').hide()"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+    </h:body>
+</html>
+

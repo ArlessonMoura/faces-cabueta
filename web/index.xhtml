@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <link rel="icon" href="resources/images/dedo.jpg"/>
+        <title>FACES CABUETA</title>
+    </h:head>
+    <!--<ui:include src="menu2.xhtml"/>-->
+    <h:body style="background-color: gainsboro">
+        
+        <h:form id="formZero" style="display: grid; justify-items: center">
+            <h:graphicImage name="/images/denuncie.webp" height="100" width="100" title="FACES CABUETA"/>
+            <h1 style="font-family: cursive">FACES CABUETA</h1>
+        </h:form>
+        <br/>
+        <h:form id="formUm" style="display: grid; grid-template-columns: repeat(4, 1fr); justify-items: center">
+
+            <h:link outcome="professor.xhtml">
+                <h:graphicImage name="/images/profa.png" height="200" width="200" 
+                                onmouseover="this.style.transform = 'scale(1.5)';"
+                                onmouseout="this.style.transform = 'scale(1)';" 
+                                title="Professor(a)"/>
+            </h:link>
+            
+            <!--<h:link outcome="cadastroestudante.xhtml">-->
+                <h:graphicImage name="/images/estudante2.png" height="200" width="200" 
+                                onmouseover="this.style.transform = 'scale(1.5)';"
+                                onmouseout="this.style.transform = 'scale(1)';" 
+                                title="Estudante"/>
+            <!--</h:link>-->
+            
+            <h:link outcome="cadeira.xhtml">
+                <h:graphicImage name="/images/materia.webp" height="200" width="200" 
+                                onmouseover="this.style.transform = 'scale(1.5)';"
+                                onmouseout="this.style.transform = 'scale(1)';" 
+                                title="Cadeira"/>
+            </h:link>
+            
+            <h:link outcome="metodofila.xhtml">
+                <h:graphicImage name="/images/metodo.png" height="200" width="200" 
+                                onmouseover="this.style.transform = 'scale(1.5)';"
+                                onmouseout="this.style.transform = 'scale(1)';" 
+                                title="Método de fila"/>
+            </h:link>
+        </h:form>
+
+    </h:body>
+</html>

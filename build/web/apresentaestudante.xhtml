@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <h:head>
+        <link rel="icon" href="resources/images/dedo.jpg"/>
+        <title>ESTUDANTES CADASTRADOS</title>
+    </h:head>
+    <h:body style="background-color: gainsboro">
+        <ui:include src="menu.xhtml"/>
+
+        <h:form id="formApresentaEstudante">
+            <p:dataTable id="tableEstudante" var="estudante" value="#{eController.resgatar()}" paginator="true" rows="5"
+                         selectionMode="single" selection="#{eController.selecionado}" rowKey="#{estudante.codigo}">
+                <f:facet name="header">
+                    ESTUDANTES CADASTRADOS
+                </f:facet>
+                <p:column filterBy="#{estudante.codigo}">
+                    <f:facet name="header">
+                        CÓDIGO
+                    </f:facet>
+                    #{estudante.codigo}
+                </p:column>
+                <p:column filterBy="#{estudante.nome}">
+                    <f:facet name="header">
+                        NOME
+                    </f:facet>
+                    #{estudante.nome}
+                </p:column>
+                <p:column filterBy="#{estudante.email}">
+                    <f:facet name="header">
+                        E-MAIL
+                    </f:facet>
+                    #{estudante.email}
+                </p:column>
+                <p:column filterBy="#{estudante.anoEntrada}">
+                    <f:facet name="header">
+                        ANO ENTRADA
+                    </f:facet>
+                    #{estudante.anoEntrada}
+                </p:column>
+                <f:facet name="footer">
+                    @JERONIMOCM
+                </f:facet>
+            </p:dataTable>
+
+            <p:commandButton value="EXIBIR" oncomplete="PF('dialMostraEstudante').show()" update=":dialMostraEstudante"/>
+            <p:commandButton value="EDITAR" action="editarestudante.xhtml"/>
+            <p:commandButton value="EXCLUIR" oncomplete="PF('dialExcluiEstudante').show()" update=":dialExcluiEstudante"/>
+
+        </h:form>
+
+        <p:dialog id="dialMostraEstudante" visible="false" closable="false" modal="true" 
+                  closeOnEscape="false" widgetVar="dialMostraEstudante" showEffect="bounce" hideEffect="explode">
+
+            <f:facet name="header">
+                ESTUDANTE CADASTRADO
+            </f:facet>
+
+            <p:panelGrid columns="2">
+
+                <h:outputText value="CÓDIGO"/>
+                <h:outputText value="#{eController.selecionado.codigo}"/>
+
+                <h:outputText value="NOME"/>
+                <h:outputText value="#{eController.selecionado.nome}"/>
+
+                <h:outputText value="E-MAIL"/>
+                <h:outputText value="#{eController.selecionado.email}"/>
+
+                <h:outputText value="ANO ENTRADA"/>
+                <h:outputText value="#{eController.selecionado.anoEntrada}"/>
+
+            </p:panelGrid>
+            <f:facet name="footer">
+                <h:form>
+                    <p:commandButton value="Fechar" oncomplete="PF('dialMostraEstudante').hide()"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+
+        <p:dialog id="dialExcluiEstudante" visible="false" closable="false" modal="true" 
+                  closeOnEscape="false" widgetVar="dialExcluiEstudante" showEffect="bounce" hideEffect="explode">
+
+            <f:facet name="header">
+                EXCLUIR ESTUDANTE?
+            </f:facet>
+
+            <p:panelGrid columns="2">
+
+                <h:outputText value="CÓDIGO"/>
+                <h:outputText value="#{eController.selecionado.codigo}"/>
+
+                <h:outputText value="NOME"/>
+                <h:outputText value="#{eController.selecionado.nome}"/>
+
+                <h:outputText value="E-MAIL"/>
+                <h:outputText value="#{eController.selecionado.email}"/>
+
+                <h:outputText value="ANO ENTRADA"/>
+                <h:outputText value="#{eController.selecionado.anoEntrada}"/>
+
+            </p:panelGrid>
+            <f:facet name="footer">
+                <h:form>
+                    <p:commandButton value="Excluir" action="#{eController.excluir()}" 
+                                     oncomplete="PF('dialExcluiEstudante').hide()" update=":formApresentaEstudante"/>
+                    <p:commandButton value="Fechar" oncomplete="PF('dialExcluiEstudante').hide()"/>
+                </h:form>
+            </f:facet>
+        </p:dialog>
+    </h:body>
+</html>
+
